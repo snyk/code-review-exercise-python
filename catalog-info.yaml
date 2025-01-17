@@ -1,0 +1,8 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: code-review-exercise-python
+spec:
+  type: documentation
+  lifecycle: "-"
+  owner: "-"
