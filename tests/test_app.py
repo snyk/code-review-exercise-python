@@ -1,0 +1,27 @@
+from http import HTTPStatus
+
+from fastapi.testclient import TestClient
+
+from app import app
+
+
+def test_healthcheck():
+    client = TestClient(app)
+    response = client.get("/healthcheck")
+    assert response.status_code == HTTPStatus.NO_CONTENT
+
+
+def test_get_package_version():
+    client = TestClient(app)
+    response = client.get("/package/express/2.0.0")
+    assert response.status_code == HTTPStatus.OK
+    assert response.json().get("name") == "express"
+    assert response.json().get("version") == "2.0.0"
+    assert response.json().get("dependencies") is not None
+
+
+def test_unsupported_route():
+    client = TestClient(app)
+    response = client.get("/something")
+    assert response.status_code == HTTPStatus.NOT_FOUND
+    assert response.json() is not None
