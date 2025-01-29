@@ -1,7 +1,9 @@
-# npm dependency server
+[![CircleCI](https://dl.circleci.com/status-badge/img/gh/snyk/code-review-exercise-python/tree/main.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/snyk/code-review-exercise-python/tree/main)
 
-A web server that provides a basic HTTP api for querying the dependency
-tree of a [npm](https://npmjs.org) package.
+# README
+
+A web server that provides a basic HTTP API for querying the dependency
+tree of an [npm](https://npmjs.org) package.
 
 ## Prerequisites
 
@@ -12,32 +14,36 @@ tree of a [npm](https://npmjs.org) package.
 To install dependencies and start the server in development mode:
 
 ```sh
-poetry install --no-root
-poetry run ./manage.py runserver
+poetry install
+poetry run uvicorn app:app --host="127.0.0.1" --port="3000" --log-level="info" --reload
 ```
 
-The server will now be running on an available port (defaulting to 8000) and
-will restart on changes to the src files.
+The server will now be running on an available port (defaulting to 3000) and will restart on changes to the files in `/npm_deps`
 
-Then we can try the `/package` endpoint. Here is an example that uses `curl` and
-`jq`, but feel free to use any client.
+The server contains two endpoints
+`- /healthcheck`
+
+- `/package/:packageName/:packageVersion`
+
+Here is an example that uses `curl` and
+`jq` to fetch the dependencies for `react@16.13.0`
 
 ```sh
-curl -s http://localhost:8000/package/react/16.13.0 | jq .
+curl -s http://localhost:3000/package/react/16.13.0 | jq .
 ```
 
-Most of the code is boilerplate; the logic for the `/package` endpoint can be
-found in [src/package.py](src/package.py), and some basic tests in
-[test/test_package.py](test/test_package.py)
+## Testing
 
-You can run the tests with:
+You can run the tests with this command:
 
 ```sh
 poetry run pytest
 ```
 
+## Pre-commit
+
 The code is linted using `pre-commit`, you can run this via:
 
 ```sh
-pre-commit
+pre-commit run -a -v
 ```
