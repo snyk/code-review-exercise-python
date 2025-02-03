@@ -19,8 +19,8 @@ anyio = "^4.8.0"
 trio = "^0.28.0"
 responses = "^0.25.6"
 
-[tool.pytest.ini_options]
-asyncio_default_fixture_loop_scope = "function"
+[tool.pytest]
+asyncio_mode = "auto"
 
 [tool.black]
 target_version = ["py313"]
