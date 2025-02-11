@@ -14,7 +14,6 @@ async def request_package(name: str) -> dict:
     logger.info("Status: %s", response.status_code)
     if response.status_code == HTTPStatus.OK:
         return response.json()
-    # TODO: add retries
     logger.error("Package: %s not found", name)
     raise HTTPException(
         status_code=HTTPStatus.NOT_FOUND, detail="Package not found here"
