@@ -5,15 +5,18 @@ import pytest
 from npm_deps.package import get_package_version
 
 fake_npm_response = {
-    "name": "some_package",
-    "description": "Some description",
-    "dist-tags": {"latest": "0.1.0"},
+    "name": "some-package",
     "versions": {
         "0.1.0": {
-            "dependencies": {"lru-cache": "~1.0.5"},
-            "name": "minimatch",
+            "dependencies": {"other-package": "~1.0.5"},
+            "name": "some-package",
+            "version": "0.1.0",
+        },
+        "0.1.1": {
+            "dependencies": {"other-package": "~1.0.5"},
+            "name": "some-package",
             "version": "0.1.1",
-        }
+        },
     },
     "other": "ignored fields",
 }
@@ -23,7 +26,25 @@ fake_npm_response = {
 async def test_get_package_version():
     with mock.patch("npm_deps.package.request_package") as mock_request_package:
         mock_request_package.return_value = fake_npm_response
-        result = await get_package_version("some_package", "0.1.0")
-        assert result.name == "some_package"
+
+        result = await get_package_version("some-package", "0.1.0")
+
+        assert result.name == "some-package"
         assert result.version == "0.1.0"
-        assert result.dependencies.get("lru-cache") == "~1.0.5"
+        assert result.dependencies.get("other-package") == "~1.0.5"
+
+
+@pytest.mark.anyio
+async def test_get_package_version_without_passing_version():
+    with mock.patch("npm_deps.package.request_package") as mock_request_package:
+        with mock.patch("npm_deps.package.max_satisfying") as max_satisfying:
+            mock_request_package.return_value = fake_npm_response
+            max_satisfying.return_value = "0.1.1"
+            result = await get_package_version("some-package")
+
+        assert result.name == "some-package"
+        assert result.version == "0.1.1"
+        assert result.dependencies.get("other-package") == "~1.0.5"
+
+
+# TODO: add test cases for more scenarios

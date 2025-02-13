@@ -8,6 +8,7 @@ async def get_package_version(
     name: str, version: str | None = None
 ) -> NPMPackageVersion:
 
+    # TODO: check Node and Golang versions for consistency on supporting on version: None
     package_json = await request_package(name)
 
     npm_package = NPMPackage(
@@ -18,13 +19,18 @@ async def get_package_version(
     if not version:
         version = max_satisfying(npm_package.versions.keys(), "*")
 
-    dependencies = (
-        resolved_version.dependencies
-        if version and (resolved_version := npm_package.versions.get(version))
-        else None
-    )
+    dependencies = get_dependencies(npm_package, version)
+
     return NPMPackageVersion(
         name=name,
         version=version,
         dependencies=dependencies,
     )
+
+
+def get_dependencies(npm_package, version) -> dict | None:
+    if version:
+        npm_package_version = npm_package.versions.get(version)
+        if npm_package_version is not None:
+            return dict(npm_package_version.dependencies)
+    return None
