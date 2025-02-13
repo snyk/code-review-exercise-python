@@ -1,3 +1,4 @@
+---
 name: "Install python and dependencies"
 description: "Installs python and dependencies with poetry install"
 inputs:
