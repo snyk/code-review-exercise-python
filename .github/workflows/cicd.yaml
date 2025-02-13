@@ -60,4 +60,4 @@ jobs:
         with:
           python-version-file: ${{ env.PYTHON_VERSION_FILE }}
       - name: Test
-        run: poetry run test
+        run: poetry run pytest
