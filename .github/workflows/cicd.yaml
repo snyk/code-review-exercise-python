@@ -17,10 +17,8 @@ jobs:
         uses: ./.github/actions/poetryinstall
         with:
           python-version-file: ${{ env.PYTHON_VERSION_FILE }}
-      - name: Install pre-commit
+      - name: Run pre-commit
         uses: pre-commit/action@v3.0.1
-      - name: Lint
-        run: pre-commit
   docker:
     runs-on: ubuntu-latest
     steps:
@@ -62,4 +60,4 @@ jobs:
         with:
           python-version-file: ${{ env.PYTHON_VERSION_FILE }}
       - name: Test
-        run: poetry test
+        run: poetry run test
