@@ -11,10 +11,8 @@ async def get_package_version(
     package_json = await request_package(name)
 
     npm_package = NPMPackage(
-        name=package_json["name"],
-        description=package_json["description"],
-        dist_tags=package_json["dist-tags"],
-        versions=package_json["versions"],
+        name=package_json.get("name"),
+        versions=package_json.get("versions"),
     )
 
     if not version:
