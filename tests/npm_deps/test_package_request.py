@@ -31,3 +31,6 @@ async def test_request_package_not_found():
     )
     with pytest.raises(HTTPException):
         await request_package("not_exists")
+
+
+# TODO: add test for 500 error
