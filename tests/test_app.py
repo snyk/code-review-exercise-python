@@ -11,12 +11,21 @@ def test_healthcheck():
     assert response.status_code == HTTPStatus.NO_CONTENT
 
 
-def test_get_package_version():
+def test_get_package_by_name_and_version():
     client = TestClient(app)
     response = client.get("/package/express/2.0.0")
     assert response.status_code == HTTPStatus.OK
     assert response.json().get("name") == "express"
     assert response.json().get("version") == "2.0.0"
+    assert response.json().get("dependencies") is not None
+
+
+def test_get_package_by_name():
+    client = TestClient(app)
+    response = client.get("/package/minimatch")
+    assert response.status_code == HTTPStatus.OK
+    assert response.json().get("name") == "minimatch"
+    assert response.json().get("version") is not None
     assert response.json().get("dependencies") is not None
 
 

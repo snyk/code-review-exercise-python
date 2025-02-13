@@ -9,6 +9,4 @@ class NPMPackageVersion(BaseModel):
 
 class NPMPackage(BaseModel):
     name: str
-    description: str
-    dist_tags: dict[str, str]
     versions: dict[str, NPMPackageVersion]
