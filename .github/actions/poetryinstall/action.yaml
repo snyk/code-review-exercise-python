@@ -1,0 +1,23 @@
+---
+name: "Install python and dependencies"
+description: "Installs python and dependencies with poetry install"
+inputs:
+  python-version-file:
+    description: "Location of the .python-version file"
+    required: true
+runs:
+  using: composite
+  steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Install Python
+      uses: actions/setup-python@v5
+      with:
+        python-version-file: ${{ inputs.python-version-file}}
+    - name: Install Poetry
+      uses: abatilo/actions-poetry@v3
+      with:
+        poetry-version: "main"
+    - name: Install
+      shell: bash
+      run: poetry install

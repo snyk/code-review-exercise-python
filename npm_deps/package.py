@@ -20,8 +20,13 @@ async def get_package_version(
     if not version:
         version = max_satisfying(npm_package.versions.keys(), "*")
 
+    dependencies = (
+        resolved_version.dependencies
+        if version and (resolved_version := npm_package.versions.get(version))
+        else None
+    )
     return NPMPackageVersion(
         name=name,
         version=version,
-        dependencies=npm_package.versions[version].dependencies,
+        dependencies=dependencies,
     )
