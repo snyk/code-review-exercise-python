@@ -29,8 +29,21 @@ async def test_request_package_not_found():
         "https://registry.npmjs.org/not_exists",
         status=HTTPStatus.NOT_FOUND,
     )
-    with pytest.raises(HTTPException):
+    with pytest.raises(HTTPException) as exception:
         await request_package("not_exists")
+    assert "not_exists" in exception.value.detail
+    assert "404" in exception.value.detail
 
 
-# TODO: add test for 500 error
+@responses.activate
+@pytest.mark.anyio
+async def test_request_package_server_error():
+    responses.add(
+        responses.GET,
+        "https://registry.npmjs.org/some_package",
+        status=HTTPStatus.INTERNAL_SERVER_ERROR,
+    )
+    with pytest.raises(HTTPException) as exception:
+        await request_package("some_package")
+    assert "some_package" in exception.value.detail
+    assert "500" in exception.value.detail
