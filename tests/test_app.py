@@ -22,11 +22,9 @@ def test_get_package_by_name_and_version():
 
 def test_get_package_by_name():
     client = TestClient(app)
-    response = client.get("/package/minimatch")
-    assert response.status_code == HTTPStatus.OK
-    assert response.json().get("name") == "minimatch"
-    assert response.json().get("version") is not None
-    assert response.json().get("dependencies") is not None
+    response = client.get("/package/express")
+    assert response.status_code == HTTPStatus.NOT_FOUND
+    assert response.json() is not None
 
 
 def test_unsupported_route():

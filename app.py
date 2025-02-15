@@ -15,10 +15,5 @@ async def health() -> Response:
 
 
 @app.get("/package/{name}/{version}", tags=["package"])
-async def get_package_by_name_version(name: str, version: str) -> NPMPackageVersion:
+async def get_package(name: str, version: str) -> NPMPackageVersion:
     return await get_package_version(name, version)
-
-
-@app.get("/package/{name}", tags=["package"])
-async def get_package_by_name(name: str) -> NPMPackageVersion:
-    return await get_package_version(name)
