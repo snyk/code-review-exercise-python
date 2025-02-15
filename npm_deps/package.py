@@ -1,3 +1,4 @@
+from npm_deps.error import PackageVersionNotFoundError
 from npm_deps.models import NPMPackage, NPMPackageVersion
 from npm_deps.package_request import request_package
 
@@ -11,17 +12,12 @@ async def get_package_version(name: str, version: str) -> NPMPackageVersion:
         versions=package_json.get("versions"),
     )
 
-    dependencies = get_dependencies(npm_package, version)
+    package_version = npm_package.versions.get(version)
+    if package_version is None:
+        raise PackageVersionNotFoundError(f"Package {name} version {version} not found")
 
     return NPMPackageVersion(
         name=name,
         version=version,
-        dependencies=dependencies,
+        dependencies=package_version.dependencies,
     )
-
-
-def get_dependencies(npm_package, version) -> dict | None:
-    npm_package_version = npm_package.versions.get(version)
-    if npm_package_version is not None:
-        return dict(npm_package_version.dependencies)
-    return None
