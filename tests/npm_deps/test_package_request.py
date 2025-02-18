@@ -23,7 +23,7 @@ async def test_request_package_exists():
 
 @responses.activate
 @pytest.mark.anyio
-async def test_request_package_not_found():
+async def test_request_unknown_package_not_found():
     responses.add(
         responses.GET,
         "https://registry.npmjs.org/not_exists",
