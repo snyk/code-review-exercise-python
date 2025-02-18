@@ -26,7 +26,7 @@ async def get_package_version(name: str, version: str) -> NPMPackageVersion:
         raise PackageVersionNotFoundError(f"Package {name} version {version} not found")
 
     dependencies = package_version.dependencies
-    if dependencies is None:
+    if not dependencies:
         return NPMPackageVersion(
             name=name,
             version=version,
