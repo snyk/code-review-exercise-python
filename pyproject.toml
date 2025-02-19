@@ -23,6 +23,7 @@ flake8 = "^7.1.1"
 black = "^25.1.0"
 mypy = "^1.15.0"
 pre-commit = "^4.1.0"
+requests-mock = "^1.12.1"
 
 [tool.pytest]
 asyncio_mode = "auto"

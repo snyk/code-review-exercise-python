@@ -1,0 +1,122 @@
+{
+  "_id": "aaa",
+  "_rev": "12-c8fe8a9c79fa57a87347a0213e6f2548",
+  "name": "aaa",
+  "description": "aaa...",
+  "dist-tags": {
+    "latest": "0.0.2"
+  },
+  "versions": {
+    "0.0.1": {
+      "name": "aaa",
+      "version": "0.0.1",
+      "description": "aaa...",
+      "main": "index.js",
+      "scripts": {
+        "test": "test.js"
+      },
+      "repository": {
+        "type": "git",
+        "url": "http:/www.google.git"
+      },
+      "keywords": ["math"],
+      "author": {
+        "name": "peter"
+      },
+      "license": "BSD",
+      "_id": "aaa@0.0.1",
+      "dist": {
+        "shasum": "a04fa88ad887a70dd5429652ce23823619dfd7c3",
+        "tarball": "https://registry.npmjs.org/aaa/-/aaa-0.0.1.tgz",
+        "integrity": "sha512-OJ1mtqvqeJ+DZstLIRJXDoTYt35Fed9cxL3+4Z684+w2L5rxdzgk2jJMvv9d+yG55Vqgyg6ncGkjlDQ1n3ngPA==",
+        "signatures": [
+          {
+            "keyid": "SHA256:jl3bwswu80PjjokCgh0o2w5c2U4LhQAE57gj9cz1kzA",
+            "sig": "MEYCIQDMHbh6eKD6jVIUkfPQOK+gOOmPCbd4oNuhd4xxa9iqHwIhANvdqanIA2QwY8kk4bpdHAk5Q5hBd/1tTb3B7JHbTPNh"
+          }
+        ]
+      },
+      "_npmVersion": "1.1.62",
+      "_npmUser": {
+        "name": "erhu65",
+        "email": "erhu65@gmail.com"
+      },
+      "maintainers": [
+        {
+          "name": "erhu65",
+          "email": "erhu65@gmail.com"
+        }
+      ],
+      "directories": {}
+    },
+    "0.0.2": {
+      "name": "aaa",
+      "version": "0.0.2",
+      "description": "aaa...",
+      "main": "index.js",
+      "scripts": {
+        "test": "test.js"
+      },
+      "repository": {
+        "type": "git",
+        "url": "http:/www.google.git"
+      },
+      "keywords": ["math"],
+      "author": {
+        "name": "peter"
+      },
+      "license": "BSD",
+      "_id": "aaa@0.0.2",
+      "dist": {
+        "shasum": "acd2f632b94b0f89765e75bb7b7549ce5b01caa2",
+        "tarball": "https://registry.npmjs.org/aaa/-/aaa-0.0.2.tgz",
+        "integrity": "sha512-r7469H9Uz/dlSzPOAKsjL1fNSLanUW+i4J90nm8cJi7TLwDuoOMMB1E7PC+8QU65SST7/R8NURptRs5RuR19mw==",
+        "signatures": [
+          {
+            "keyid": "SHA256:jl3bwswu80PjjokCgh0o2w5c2U4LhQAE57gj9cz1kzA",
+            "sig": "MEUCIQD89DpH8uwh6Mq2F3xtr6cng1wil3s7mc7G17U3hbGR4wIgCBtwn7a4DBPgWv4S9sfNyphPVsAWiwsvZHMJuHUptMI="
+          }
+        ]
+      },
+      "_npmVersion": "1.1.62",
+      "_npmUser": {
+        "name": "erhu65",
+        "email": "erhu65@gmail.com"
+      },
+      "maintainers": [
+        {
+          "name": "erhu65",
+          "email": "erhu65@gmail.com"
+        }
+      ],
+      "directories": {}
+    }
+  },
+  "readme": "ERROR: No README.md file found!",
+  "maintainers": [
+    {
+      "name": "erhu65",
+      "email": "erhu65@gmail.com"
+    }
+  ],
+  "time": {
+    "modified": "2022-06-13T02:17:42.137Z",
+    "created": "2012-12-31T06:54:14.275Z",
+    "0.0.1": "2012-12-31T06:54:16.706Z",
+    "0.0.2": "2012-12-31T06:57:25.258Z"
+  },
+  "author": {
+    "name": "peter"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http:/www.google.git"
+  },
+  "keywords": ["math"],
+  "license": "BSD",
+  "readmeFilename": "",
+  "users": {
+    "shap22": true,
+    "ljq0410": true
+  }
+}
