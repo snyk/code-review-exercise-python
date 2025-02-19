@@ -44,16 +44,21 @@ fake_npm_response = {
     "other": "ignored fields",
 }
 
-# @pytest.mark.anyio
-# async def test_get_valid_package_version():
-#     with mock.patch("npm_deps.package.request_package") as mock_request_package:
-#         mock_request_package.return_value = fake_npm_response
-#
-#         package_version_result = await get_package_version("some-package", "0.1.0")
-#
-#     assert package_version_result.name == "some-package"
-#     assert package_version_result.version == "0.1.0"
-#     assert package_version_result.dependencies.get("other-package") == "~1.0.5"
+
+@pytest.mark.anyio
+async def test_get_valid_package_version():
+    with mock.patch("npm_deps.package.request_package") as mock_request_package:
+        mock_request_package.return_value = fake_npm_response
+        with mock.patch(
+            "npm_deps.package.resolve_dependencies"
+        ) as mock_resolve_dependencies:
+            mock_resolve_dependencies.return_value = {"other-package": "1.0.5"}
+            package_version_result = await get_package_version("some-package", "0.1.0")
+
+    assert package_version_result.name == "some-package"
+    assert package_version_result.version == "0.1.0"
+    assert package_version_result.dependencies.get("other-package") == "1.0.5"
+    mock_resolve_dependencies.assert_called_once()
 
 
 @pytest.mark.anyio
@@ -69,7 +74,7 @@ async def test_get_package_version_without_dependencies():
     assert package_version_result.name == "some-package"
     assert package_version_result.version == "0.0.9"
     assert package_version_result.dependencies is None
-    assert mock_resolve_dependencies.mock_calls == []
+    mock_resolve_dependencies.assert_not_called()
 
 
 @pytest.mark.anyio
