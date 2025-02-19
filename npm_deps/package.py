@@ -44,7 +44,7 @@ async def resolve_dependencies(dependencies: dict) -> dict:
     resolved_dependencies = {}
     for dependency_name, dependency_range in dependencies.items():
         dependency_package_json = await request_package(dependency_name)
-        dependency_versions = list(dependency_package_json["versions"].keys())
+        dependency_versions = dependency_package_json.get("versions", {}).keys()
         max_satisfying_version = max_satisfying(dependency_versions, dependency_range)
         resolved_dependencies[dependency_name] = max_satisfying_version
     return resolved_dependencies
