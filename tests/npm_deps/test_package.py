@@ -44,7 +44,7 @@ fake_npm_response_no_dependencies = {
     "other": "ignored fields",
 }
 
-fake_npm_response_for_dependency = {
+fake_npm_response_for_dependency_1 = {
     "name": "other-package",
     "versions": {
         "1.2.3": {
@@ -56,6 +56,23 @@ fake_npm_response_for_dependency = {
             "dependencies": {},
             "name": "other-package",
             "version": "1.2.4",
+        },
+    },
+    "other": "ignored fields",
+}
+
+fake_npm_response_for_dependency_2 = {
+    "name": "another",
+    "versions": {
+        "2.0.1": {
+            "dependencies": {},
+            "name": "another",
+            "version": "2.0.1",
+        },
+        "3.0.1": {
+            "dependencies": {},
+            "name": "another",
+            "version": "3.0.1",
         },
     },
     "other": "ignored fields",
@@ -104,12 +121,18 @@ async def test_get_version_not_exists():
 
 
 @pytest.mark.anyio
-async def test_resolve_dependencies():
+async def test_resolves_dependencies():
     with mock.patch("npm_deps.package.request_package") as mock_request_package:
+        mock_request_package.side_effect = [
+            fake_npm_response_for_dependency_1,
+            fake_npm_response_for_dependency_2,
+        ]
 
-        mock_request_package.return_value = fake_npm_response_for_dependency
-
-        resolved_dependencies = await resolve_dependencies({"other-package": "~1.2.3"})
+        resolved_dependencies = await resolve_dependencies(
+            {"other-package": "^1.2.3", "another": "^3.0.1"}
+        )
 
     assert "other-package" in resolved_dependencies
+    assert "another" in resolved_dependencies
     assert resolved_dependencies.get("other-package") == "1.2.4"
+    assert resolved_dependencies.get("another") == "3.0.1"

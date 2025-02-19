@@ -21,11 +21,11 @@ async def get_package_version(name: str, version: str) -> NPMPackageVersion:
         versions=package_json.get("versions"),
     )
 
-    package_version = npm_package.versions.get(version)
-    if package_version is None:
+    package_for_version = npm_package.versions.get(version)
+    if package_for_version is None:
         raise PackageVersionNotFoundError(f"Package {name} version {version} not found")
 
-    dependencies = package_version.dependencies
+    dependencies = package_for_version.dependencies
     if not dependencies:
         return NPMPackageVersion(
             name=name,
@@ -44,10 +44,10 @@ async def get_package_version(name: str, version: str) -> NPMPackageVersion:
 
 async def resolve_dependencies(dependencies: dict) -> dict:
     """
-    Returns max satisfying version for dependencies.
+    Returns the max satisfying version for each dependency.
 
     Keyword arguments:
-    dependencies -- dictionary of package name and version ranges
+    dependencies -- dictionary of package names with version ranges
     """
     resolved_dependencies = {}
     for dependency_name, dependency_range in dependencies.items():
