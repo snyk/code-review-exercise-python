@@ -3,24 +3,7 @@ from unittest import mock
 import pytest
 
 from npm_deps.error import PackageVersionNotFoundError
-from npm_deps.package import get_package_version
-
-fake_npm_response_no_dependencies = {
-    "name": "some-package",
-    "versions": {
-        "0.0.8": {
-            "dependencies": {},
-            "name": "some-package",
-            "version": "0.0.8",
-        },
-        "0.0.9": {
-            "dependencies": {},
-            "name": "some-package",
-            "version": "0.0.9",
-        },
-    },
-    "other": "ignored fields",
-}
+from npm_deps.package import get_package_version, resolve_dependencies
 
 fake_npm_response = {
     "name": "some-package",
@@ -39,6 +22,40 @@ fake_npm_response = {
             "dependencies": {"other-package": "~1.0.5"},
             "name": "some-package",
             "version": "0.1.1",
+        },
+    },
+    "other": "ignored fields",
+}
+
+fake_npm_response_no_dependencies = {
+    "name": "some-package",
+    "versions": {
+        "0.0.8": {
+            "dependencies": {},
+            "name": "some-package",
+            "version": "0.0.8",
+        },
+        "0.0.9": {
+            "dependencies": {},
+            "name": "some-package",
+            "version": "0.0.9",
+        },
+    },
+    "other": "ignored fields",
+}
+
+fake_npm_response_for_dependency = {
+    "name": "other-package",
+    "versions": {
+        "1.2.3": {
+            "dependencies": {},
+            "name": "other-package",
+            "version": "1.2.3",
+        },
+        "1.2.4": {
+            "dependencies": {},
+            "name": "other-package",
+            "version": "1.2.4",
         },
     },
     "other": "ignored fields",
@@ -84,3 +101,15 @@ async def test_get_version_not_exists():
         with pytest.raises(PackageVersionNotFoundError) as exception:
             await get_package_version("some-package", "9.9.9")
     assert exception.value.detail == "Package some-package version 9.9.9 not found"
+
+
+@pytest.mark.anyio
+async def test_resolve_dependencies():
+    with mock.patch("npm_deps.package.request_package") as mock_request_package:
+
+        mock_request_package.return_value = fake_npm_response_for_dependency
+
+        resolved_dependencies = await resolve_dependencies({"other-package": "~1.2.3"})
+
+    assert "other-package" in resolved_dependencies
+    assert resolved_dependencies.get("other-package") == "1.2.4"
