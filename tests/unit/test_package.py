@@ -3,7 +3,7 @@ from unittest import mock
 import pytest
 
 from npm_deps.error import PackageVersionNotFoundError
-from npm_deps.package import get_package_version, resolve_dependencies
+from npm_deps.package_version import get_package_version, resolve_dependencies
 
 fake_npm_response = {
     "name": "some-package",
@@ -81,10 +81,10 @@ fake_npm_response_for_dependency_2 = {
 
 @pytest.mark.anyio
 async def test_get_valid_package_version():
-    with mock.patch("npm_deps.package.request_package") as mock_request_package:
+    with mock.patch("npm_deps.package_version.request_package") as mock_request_package:
         mock_request_package.return_value = fake_npm_response
         with mock.patch(
-            "npm_deps.package.resolve_dependencies"
+            "npm_deps.package_version.resolve_dependencies"
         ) as mock_resolve_dependencies:
             mock_resolve_dependencies.return_value = {"other-package": "1.0.5"}
             package_version_result = await get_package_version("some-package", "0.1.0")
@@ -97,9 +97,9 @@ async def test_get_valid_package_version():
 
 @pytest.mark.anyio
 async def test_get_package_version_without_dependencies():
-    with mock.patch("npm_deps.package.request_package") as mock_request_package:
+    with mock.patch("npm_deps.package_version.request_package") as mock_request_package:
         with mock.patch(
-            "npm_deps.package.resolve_dependencies"
+            "npm_deps.package_version.resolve_dependencies"
         ) as mock_resolve_dependencies:
             mock_request_package.return_value = fake_npm_response_no_dependencies
 
@@ -113,7 +113,7 @@ async def test_get_package_version_without_dependencies():
 
 @pytest.mark.anyio
 async def test_get_version_not_exists():
-    with mock.patch("npm_deps.package.request_package") as mock_request_package:
+    with mock.patch("npm_deps.package_version.request_package") as mock_request_package:
         mock_request_package.return_value = fake_npm_response
         with pytest.raises(PackageVersionNotFoundError) as exception:
             await get_package_version("some-package", "9.9.9")
@@ -122,7 +122,7 @@ async def test_get_version_not_exists():
 
 @pytest.mark.anyio
 async def test_resolves_dependencies():
-    with mock.patch("npm_deps.package.request_package") as mock_request_package:
+    with mock.patch("npm_deps.package_version.request_package") as mock_request_package:
         mock_request_package.side_effect = [
             fake_npm_response_for_dependency_1,
             fake_npm_response_for_dependency_2,

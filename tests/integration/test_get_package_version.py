@@ -3,7 +3,7 @@ import json
 import pytest
 import requests_mock
 
-from npm_deps.package import get_package_version
+from npm_deps.package_version import get_package_version
 
 
 @pytest.mark.anyio
