@@ -4,7 +4,7 @@ from fastapi import FastAPI
 from starlette.responses import Response
 
 from npm_deps.models import NPMPackageVersion
-from npm_deps.package import get_package_version
+from npm_deps.package_version import get_package_version
 
 app = FastAPI(title="NpmDepsService", version="1.0")
 
