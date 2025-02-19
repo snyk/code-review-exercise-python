@@ -13,16 +13,16 @@ def test_healthcheck():
 
 def test_get_package_by_name_and_version():
     client = TestClient(app)
-    response = client.get("/package/express/2.0.0")
+    response = client.get("/package/react/16.3.0")
     assert response.status_code == HTTPStatus.OK
-    assert response.json().get("name") == "express"
-    assert response.json().get("version") == "2.0.0"
+    assert response.json().get("name") == "react"
+    assert response.json().get("version") == "16.3.0"
     assert response.json().get("dependencies") is not None
 
 
 def test_get_package_by_name():
     client = TestClient(app)
-    response = client.get("/package/express")
+    response = client.get("/package/react")
     assert response.status_code == HTTPStatus.NOT_FOUND
     assert response.json() is not None
 
