@@ -25,21 +25,13 @@ async def get_package_version(name: str, version: str) -> NPMPackageVersion:
     if package_for_version is None:
         raise PackageVersionNotFoundError(f"Package {name} version {version} not found")
 
-    dependencies = package_for_version.dependencies
-    if not dependencies:
-        return NPMPackageVersion(
-            name=name,
-            version=version,
-            dependencies=None,
-        )
-
-    resolved_dependencies = await resolve_dependencies(dependencies)
-
-    return NPMPackageVersion(
-        name=name,
-        version=version,
-        dependencies=resolved_dependencies,
+    dependencies = (
+        await resolve_dependencies(package_for_version.dependencies)
+        if package_for_version.dependencies
+        else None
     )
+
+    return NPMPackageVersion(name=name, version=version, dependencies=dependencies)
 
 
 async def resolve_dependencies(dependencies: dict) -> dict:
