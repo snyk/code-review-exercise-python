@@ -3,8 +3,7 @@ from http import HTTPStatus
 from fastapi import FastAPI
 from starlette.responses import Response
 
-from npm_deps.models import NPMPackageVersion
-from npm_deps.package_version import get_package_version
+from npm_deps.package import get_package
 
 app = FastAPI(title="NpmDepsService", version="1.0")
 
@@ -15,5 +14,5 @@ async def health() -> Response:
 
 
 @app.get("/package/{name}/{version}", tags=["package"])
-async def get_package(name: str, version: str) -> NPMPackageVersion:
-    return await get_package_version(name, version)
+async def get_package_version(name: str, version: str):  # type: ignore[no-untyped-def]
+    return await get_package(name, version)
