@@ -11,13 +11,22 @@ def test_healthcheck():
     assert response.status_code == HTTPStatus.NO_CONTENT
 
 
-def test_get_package_by_name_and_version():
+def test_get_package():
     client = TestClient(app)
-    response = client.get("/package/react/16.3.0")
+    response = client.get("/package/minimatch/3.1.2")
     assert response.status_code == HTTPStatus.OK
-    assert response.json().get("name") == "react"
-    assert response.json().get("version") == "16.3.0"
-    assert response.json().get("dependencies") is not None
+    assert response.json().get("name") == "minimatch"
+    assert response.json().get("version") == "3.1.2"
+    assert response.json().get("dependencies") == [
+        {
+            "name": "brace-expansion",
+            "version": "1.1.11",
+            "dependencies": [
+                {"name": "balanced-match", "version": "1.0.2", "dependencies": []},
+                {"name": "concat-map", "version": "0.0.1", "dependencies": []},
+            ],
+        }
+    ]
 
 
 def test_get_package_by_name():
